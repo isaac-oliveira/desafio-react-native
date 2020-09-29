@@ -1,5 +1,6 @@
 const Images = {
   appBackground: require('../Images/background.png'),
+  toDo: require('../Images/to-do.png'),
   check: require('../Images/check.png'),
   search: {
     '24px': require('../Images/busca_24px.png')
