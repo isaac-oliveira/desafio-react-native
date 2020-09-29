@@ -8,7 +8,7 @@ const Stack = createStackNavigator()
 
 function AppNavigation () {
   return (
-    <Stack.Navigator initialRouteName='SplashScreen' headerMode='none'>
+    <Stack.Navigator initialRouteName='HomeScreen' headerMode='none'>
       <Stack.Screen name='HomeScreen' component={HomeScreen} />
     </Stack.Navigator>
   )
