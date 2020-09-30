@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { Colors } from '../Themes'
 
-// import { Container } from './styles';
-
 const FilterRadio = ({ filters, value, onChange }) => {
   const [current, setCurrent] = useState(value || 'all')
 

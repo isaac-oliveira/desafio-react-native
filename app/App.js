@@ -5,24 +5,21 @@ import { PersistGate } from 'redux-persist/integration/react'
 
 import RootContainer from './App/Containers/RootContainer'
 import configureStore from './App/Redux'
-
-import StorybookUI from './storybook'
 import Config from './App/Config/DebugConfig'
 import SplashScreen from './App/Containers/SplashScreen'
 import { Colors } from './App/Themes'
+import StorybookUI from './storybook'
 
 const { store, persistor } = configureStore()
 
 const App = () => {
   return (
-    <>
-      <StatusBar backgroundColor={Colors.a120} />
-      <Provider store={store}>
-        <PersistGate persistor={persistor} loading={<SplashScreen />}>
-          <RootContainer />
-        </PersistGate>
-      </Provider>
-    </>
+    <Provider store={store}>
+      <PersistGate persistor={persistor} loading={<SplashScreen />}>
+        <StatusBar backgroundColor={Colors.a120} />
+        <RootContainer />
+      </PersistGate>
+    </Provider>
   )
 }
 

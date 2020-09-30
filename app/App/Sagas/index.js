@@ -1,14 +1,12 @@
-import { all } from 'redux-saga/effects'
+import { all, takeLatest } from 'redux-saga/effects'
 
+import { actions as UiActions } from '../Redux/Ui'
 import Api from '../Services/Api'
 
-import ToDoFeature from '../Features/ToDo'
+import { getToDos } from './ToDo'
 
-import Config from '../Config/DebugConfig'
-import FixtureAPI from '../Services/FixtureAPI'
+const api = Api.create()
 
-const api = Config.useFixtures ? FixtureAPI : Api.create()
-
-export default function * root (): any {
-  yield all([ToDoFeature.sagas(api)])
+export default function * root () {
+  yield all([takeLatest(UiActions.request, getToDos, api)])
 }

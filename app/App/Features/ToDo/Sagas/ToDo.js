@@ -4,7 +4,8 @@ import { actions as ToDosUIActions } from '../Redux/Ui'
 import { actions as ToDosEntityActions } from '../Redux/Entity'
 
 import type { Api } from '../../../Services/Api'
-import { PayloadAction } from '@reduxjs/toolkit'
+
+import type { PayloadAction } from '@reduxjs/toolkit'
 
 export function * getToDos (api: Api, action: PayloadAction): * {
   const response = yield call(api.getToDos, action.payload)

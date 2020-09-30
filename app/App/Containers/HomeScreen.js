@@ -1,20 +1,39 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 
 import DefaultBackground from '../Components/DefaultBackground'
 import FilterRadio from '../Components/FilterRadio'
 import Search from '../Components/Search'
 import { Colors, Images } from '../Themes'
+import { actions as UiActions } from '../Redux/Ui'
+import ToDoItem from '../Components/ToDoItem'
+import List from '../Components/List'
+import EmptyList from '../Components/EmptyList'
+import ErrorList from '../Components/ErrorList'
 
 const filters = [
   { title: 'Todos', value: 'all' },
   { title: 'Hoje', value: 'today' },
   { title: 'Esta Semana', value: 'week' },
-  { title: 'Atrasadas', value: 'late' }
+  { title: 'Atrasadas', value: 'month' }
 ]
 
 const HomeScreen = () => {
+  const [value, setValue] = useState('all')
   const [searchMode, setSearchMode] = useState(false)
+  const toDos = useSelector(state => state.toDo)
+  const ui = useSelector(state => state.ui)
+
+  const dispatch = useDispatch()
+
+  const fetchToDos = useCallback(() => {
+    dispatch(UiActions.request(value))
+  }, [dispatch, value])
+
+  useEffect(() => {
+    fetchToDos()
+  }, [fetchToDos])
 
   function searchModeShow () {
     setSearchMode(true)
@@ -22,6 +41,12 @@ const HomeScreen = () => {
 
   function searchModeHide () {
     setSearchMode(false)
+  }
+
+  const ListErrorComponent = () => <ErrorList onTryAgain={fetchToDos} />
+
+  const renderItem = ({ item }) => {
+    return <ToDoItem item={item} />
   }
 
   return (
@@ -67,8 +92,17 @@ const HomeScreen = () => {
             }
           ]}
         >
-          <FilterRadio filters={filters} />
+          <FilterRadio filters={filters} value={value} onChange={setValue} />
         </View>
+        <List
+          loading={ui.fetching}
+          error={ui.error}
+          data={toDos.data}
+          keyExtractor={item => `${item.id}`}
+          ListEmptyComponent={EmptyList}
+          ListErrorComponent={ListErrorComponent}
+          renderItem={renderItem}
+        />
         <TouchableOpacity style={styles.btnAdd}>
           <Image source={Images.add['36px']} />
         </TouchableOpacity>
