@@ -4,13 +4,15 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import DefaultBackground from '../Components/DefaultBackground'
 import FilterRadio from '../Components/FilterRadio'
-import Search from '../Components/Search'
-import { Colors, Images } from '../Themes'
-import { actions as UiActions } from '../Redux/Ui'
 import ToDoItem from '../Components/ToDoItem'
 import List from '../Components/List'
 import EmptyList from '../Components/EmptyList'
 import ErrorList from '../Components/ErrorList'
+import Search from '../Components/Search'
+
+import { actions as UiActions } from '../Redux/Ui'
+import ToDoSelector from '../Selectors/ToDoSelector'
+import { Colors, Images } from '../Themes'
 
 const filters = [
   { title: 'Todos', value: 'all' },
@@ -20,16 +22,16 @@ const filters = [
 ]
 
 const HomeScreen = () => {
-  const [value, setValue] = useState('all')
+  const [filter, setFilter] = useState('all')
   const [searchMode, setSearchMode] = useState(false)
-  const toDos = useSelector(state => state.toDo)
+  const toDos = useSelector(ToDoSelector.sortedToDos)
   const ui = useSelector(state => state.ui)
 
   const dispatch = useDispatch()
 
   const fetchToDos = useCallback(() => {
-    dispatch(UiActions.request(value))
-  }, [dispatch, value])
+    dispatch(UiActions.request(filter))
+  }, [dispatch, filter])
 
   useEffect(() => {
     fetchToDos()
@@ -92,12 +94,12 @@ const HomeScreen = () => {
             }
           ]}
         >
-          <FilterRadio filters={filters} value={value} onChange={setValue} />
+          <FilterRadio filters={filters} value={filter} onChange={setFilter} />
         </View>
         <List
           loading={ui.fetching}
           error={ui.error}
-          data={toDos.data}
+          data={toDos}
           keyExtractor={item => `${item.id}`}
           ListEmptyComponent={EmptyList}
           ListErrorComponent={ListErrorComponent}

@@ -1,7 +1,11 @@
 const Images = {
   appBackground: require('../Images/background.png'),
   toDo: require('../Images/to-do.png'),
-  check: require('../Images/check.png'),
+  check: {
+    0: require('../Images/check-0.png'),
+    1: require('../Images/check-1.png'),
+    default: require('../Images/check.png')
+  },
   search: {
     '24px': require('../Images/busca_24px.png'),
     white: require('../Images/busca-white.png')

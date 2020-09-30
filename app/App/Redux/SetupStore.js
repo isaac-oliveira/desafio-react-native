@@ -23,5 +23,6 @@ export default ({ rootReducer }: Configuration) => {
   })
 
   sagaMiddleware.run(rootSaga)
+
   return store
 }

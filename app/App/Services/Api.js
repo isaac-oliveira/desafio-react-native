@@ -11,15 +11,23 @@ const create = (baseURL: string = 'http://10.0.0.15:3000') => {
 
   const getFilteredToDos = (filter: string) => api.get(`/todos/${filter}`)
 
+  const toggleToDo = (item: any) =>
+    api.put(`/todos/${item.id}`, {
+      ...item,
+      isDone: !item.isDone
+    })
+
   return {
     getToDos,
-    getFilteredToDos
+    getFilteredToDos,
+    toggleToDo
   }
 }
 
 export type Api = {
   getToDos: () => Promise<*>,
-  getFilteredToDos: (filter: string) => Promise<*>
+  getFilteredToDos: (filter: string) => Promise<*>,
+  toggleToDo: (item: any) => Promise<*>
 }
 
 export default {

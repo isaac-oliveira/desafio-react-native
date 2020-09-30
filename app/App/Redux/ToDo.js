@@ -12,6 +12,22 @@ const toDoUiSlice = createSlice({
     setToDos: (state, action) => ({
       ...state,
       data: action.payload
+    }),
+    requestToggleToDo: state => ({
+      ...state
+    }),
+    toggleToDo: (state, action) => ({
+      ...state,
+      data: state.data.map(item => {
+        if (item.id !== action.payload.id) {
+          return item
+        }
+
+        return {
+          ...item,
+          isDone: !item.isDone
+        }
+      })
     })
   }
 })
