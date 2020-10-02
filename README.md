@@ -121,13 +121,13 @@ Vale lembrar que **não é obrigatório finalizar todas as tarefas listadas** aq
    4. [Apagar](https://invis.io/52U0WK0TNF8#/384998460) ✅
    5. [Confirmar apagar](https://invis.io/52U0WK0TNF8#/384998461) ✅
 6. Busca
-   1. [Resultado](https://invis.io/52U0WK0TNF8#/384998467)
-   2. [Nenhum resultado](https://invis.io/52U0WK0TNF8#/384998469)
-   3. [Destacar trecho do texto que está sendo buscado](https://invis.io/52U0WK0TNF8#/384998468)
+   1. [Resultado](https://invis.io/52U0WK0TNF8#/384998467) ✅
+   2. [Nenhum resultado](https://invis.io/52U0WK0TNF8#/384998469) ✅
+   3. [Destacar trecho do texto que está sendo buscado](https://invis.io/52U0WK0TNF8#/384998468) ✅
 7. Configurações de Tema
    1. [Cores](https://invis.io/52U0WK0TNF8#/385001564) ✅
    2. [Tipografia](https://invis.io/52U0WK0TNF8#/385001526)
-8. Adicionar [splash screen](https://invis.io/52U0WK0TNF8#/384998451) ao app
+8. Adicionar [splash screen](https://invis.io/52U0WK0TNF8#/384998451) ao app ✅
 9. Adicionar ícones ao app
 10. [Animações e Desempenho](https://www.figma.com/proto/F95kJDtNqV2b2ioeS3YqTp/Pop-To-Do_Android)
     1. Transição inicial
