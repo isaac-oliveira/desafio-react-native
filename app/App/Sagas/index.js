@@ -1,14 +1,11 @@
-import { all, takeLatest } from 'redux-saga/effects'
-
-import { actions as UiActions } from '../Redux/Ui'
-import { actions as ToDosActions } from '../Redux/ToDo'
+import { all } from 'redux-saga/effects'
 
 import Api from '../Services/Api'
 
-import { getToDos, toggleToDo } from './ToDoSagas'
+import { getToDos, toggleToDo, createToDo, updateToDo, deleteToDo, refreshToDos } from './ToDoSagas'
 
 const api = Api.create()
 
-export default function * root () {
-  yield all([takeLatest(UiActions.request, getToDos, api), takeLatest(ToDosActions.requestToggleToDo, toggleToDo, api)])
+export default function* root() {
+  yield all([getToDos(api), refreshToDos(api), toggleToDo(api), createToDo(api), updateToDo(api), deleteToDo(api)])
 }

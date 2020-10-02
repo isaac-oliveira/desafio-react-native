@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -7,6 +7,7 @@ import FilterRadio from '../Components/FilterRadio'
 import ToDoItem from '../Components/ToDoItem'
 import List from '../Components/List'
 import EmptyList from '../Components/EmptyList'
+import BottomSheet from '../Components/BottomSheet'
 import ErrorList from '../Components/ErrorList'
 import Search from '../Components/Search'
 
@@ -22,6 +23,7 @@ const filters = [
 ]
 
 const HomeScreen = () => {
+  const bottomSheetRef = useRef(null)
   const [filter, setFilter] = useState('all')
   const [searchMode, setSearchMode] = useState(false)
   const toDos = useSelector(ToDoSelector.sortedToDos)
@@ -37,21 +39,30 @@ const HomeScreen = () => {
     fetchToDos()
   }, [fetchToDos])
 
-  function searchModeShow () {
+  function searchModeShow() {
     setSearchMode(true)
   }
 
-  function searchModeHide () {
+  function searchModeHide() {
     setSearchMode(false)
+  }
+  
+  function showAddSheet() {
+    bottomSheetRef.current?.show(filter, null)
   }
 
   const ListErrorComponent = () => <ErrorList onTryAgain={fetchToDos} />
 
   const renderItem = ({ item }) => {
-    return <ToDoItem item={item} />
+    function showEditSheet() {
+      bottomSheetRef.current?.show(filter, item)
+    }
+
+    return <ToDoItem item={item} onItemPress={showEditSheet} />
   }
 
   return (
+    <BottomSheet ref={bottomSheetRef}>
     <DefaultBackground>
       <View
         style={[
@@ -100,16 +111,17 @@ const HomeScreen = () => {
           loading={ui.fetching}
           error={ui.error}
           data={toDos}
-          keyExtractor={item => `${item.id}`}
-          ListEmptyComponent={EmptyList}
+            keyExtractor={item => String(item.id)}
+            ListEmptyComponent={EmptyList}
           ListErrorComponent={ListErrorComponent}
           renderItem={renderItem}
         />
-        <TouchableOpacity style={styles.btnAdd}>
+          <TouchableOpacity style={styles.btnAdd} onPress={showAddSheet}>
           <Image source={Images.add['36px']} />
         </TouchableOpacity>
       </View>
     </DefaultBackground>
+    </BottomSheet>
   )
 }
 

@@ -7,11 +7,11 @@ import { actions as ToDoActions } from '../Redux/ToDo'
 import Images from '../Themes/Images'
 import Colors from '../Themes/Colors'
 
-const ToDoItem = ({ item }) => {
+const ToDoItem = ({ item, onItemPress }) => {
   const dispatch = useDispatch()
   const { isDone } = item
 
-  function onCheck () {
+  function onCheck() {
     dispatch(ToDoActions.requestToggleToDo(item))
   }
 
@@ -20,7 +20,7 @@ const ToDoItem = ({ item }) => {
       <TouchableOpacity style={styles.btnCheck} onPress={onCheck}>
         <Image source={Images.check[isDone ? '1' : '0']} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.btnItem}>
+      <TouchableOpacity style={styles.btnItem} onPress={onItemPress}>
         <Text
           style={[
             styles.title,

@@ -2,19 +2,33 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const INITIAL_STATE = {
+  fetching: false,
+  error: null,
   data: []
 }
 
-const toDoUiSlice = createSlice({
+const toDoSlice = createSlice({
   name: 'toDo',
   initialState: INITIAL_STATE,
   reducers: {
+    requestToggleToDo: state => ({
+      ...state
+    }),
+    requestCreateToDo: state => ({
+      ...state
+    }),
+    requestUpdateToDo: state => ({
+      ...state
+    }),
+    requestDeleteToDo: state => ({
+      ...state
+    }),
+    refreshToDos: state => ({
+      ...state
+    }),
     setToDos: (state, action) => ({
       ...state,
       data: action.payload
-    }),
-    requestToggleToDo: state => ({
-      ...state
     }),
     toggleToDo: (state, action) => ({
       ...state,
@@ -32,6 +46,6 @@ const toDoUiSlice = createSlice({
   }
 })
 
-export const { actions } = toDoUiSlice
+export const { actions } = toDoSlice
 
-export default toDoUiSlice.reducer
+export default toDoSlice.reducer
