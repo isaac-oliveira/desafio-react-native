@@ -5,7 +5,7 @@ import { Colors, Images } from '../Themes'
 const EmptyList = () => {
   return (
     <View style={styles.container}>
-      <Image source={Images.sol} />
+      <Image source={Images.sun} />
       <Text style={styles.title}>Tudo limpo!</Text>
       <Text style={styles.subtitle}>Adicione um novo lembrete{'\n'}tocando no ‘+’.</Text>
     </View>
