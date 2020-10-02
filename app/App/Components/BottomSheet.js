@@ -1,14 +1,30 @@
-import React, { forwardRef, useImperativeHandle, useState } from 'react'
-import { TouchableOpacity, Image, Modal, StyleSheet, View } from 'react-native'
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
+import { TouchableOpacity, Image, Modal, StyleSheet, View, Dimensions } from 'react-native'
+import useAnimation, { AnimationStyle } from '../Hooks/useAnimation'
+import Animated from 'react-native-reanimated'
 
 import { Colors, Images } from '../Themes'
 import AddToDo from './AddToDo'
 import EditToDo from './EditToDo'
 
+const { height } = Dimensions.get('screen')
+
 const BottomSheet = ({ children }, ref) => {
   const [filter, setFilter] = useState(null)
   const [state, setState] = useState(null)
   const [visible, setVisible] = useState(false)
+
+  const { animStyle, startAnim, resetAnim } = useAnimation({
+    autoPlay: false,
+    duration: 500,
+    animationStyle
+  })
+
+  useEffect(() => {
+    if (visible) {
+      startAnim()
+    }
+  }, [startAnim, visible])
 
   useImperativeHandle(ref, () => ({
     show,
@@ -22,21 +38,21 @@ const BottomSheet = ({ children }, ref) => {
   }
 
   function hide () {
-    setVisible(false)
+    resetAnim(() => setVisible(false))
   }
 
   return (
     <View style={styles.container}>
       {children}
       <Modal onRequestClose={hide} visible={visible} transparent>
-        <View style={styles.modalContainer}>
-          <View style={styles.bottomSheet}>
+        <Animated.View style={[styles.modalContainer, animStyle.modalContainerAnim]}>
+          <Animated.View style={[styles.bottomSheet, animStyle.bottomSheetAnim]}>
             <TouchableOpacity style={styles.btnClose} onPress={hide}>
               <Image source={Images.close['24px']} />
             </TouchableOpacity>
             {state ? <EditToDo filter={filter} item={state} hide={hide} /> : <AddToDo filter={filter} hide={hide} />}
-          </View>
-        </View>
+          </Animated.View>
+        </Animated.View>
       </Modal>
     </View>
   )
@@ -67,6 +83,25 @@ const styles = StyleSheet.create({
     marginRight: 10,
     alignSelf: 'flex-end',
     zIndex: 3
+  }
+})
+
+const animationStyle: AnimationStyle = anim => ({
+  modalContainerAnim: {
+    opacity: anim.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0.2, 1]
+    })
+  },
+  bottomSheetAnim: {
+    transform: [
+      {
+        translateY: anim.interpolate({
+          inputRange: [0, 1],
+          outputRange: [height * 0.5, 0]
+        })
+      }
+    ]
   }
 })
 

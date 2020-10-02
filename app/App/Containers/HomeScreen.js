@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { Animated, StyleSheet, View, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Image, TouchableOpacity, Dimensions } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import Animated, { Easing } from 'react-native-reanimated'
 
 import DefaultBackground from '../Components/DefaultBackground'
 import FilterRadio from '../Components/FilterRadio'
@@ -15,6 +16,9 @@ import ErrorList from '../Components/ErrorList'
 import { actions as UiActions } from '../Redux/Ui'
 import ToDoSelector from '../Selectors/ToDoSelector'
 import { Colors, Images } from '../Themes'
+import useAnimation, { AnimationStyle } from '../Hooks/useAnimation'
+
+const { height } = Dimensions.get('screen')
 
 const filters = [
   { title: 'Todos', value: 'all' },
@@ -31,11 +35,26 @@ const HomeScreen = () => {
   const toDos = useSelector(ToDoSelector.sortedToDos)
   const ui = useSelector(state => state.ui)
 
+  const { animStyle: initialAnimStyle, finishedInitialAnim } = useAnimation({
+    duration: 1000,
+    autoPlay: true,
+    animationStyle: initialAnimationStyle
+  })
+
+  const { animStyle: searchAnimStyle, animValue: searchAnimValue, startAnim, resetAnim } = useAnimation({
+    duration: 500,
+    autoPlay: false,
+    animationStyle: searchAnimationStyle,
+    easing: Easing.linear
+  })
+
   const dispatch = useDispatch()
 
   const fetchToDos = useCallback(() => {
-    dispatch(UiActions.request({ filter, query }))
-  }, [dispatch, filter, query])
+    if (finishedInitialAnim) {
+      dispatch(UiActions.request({ filter, query }))
+    }
+  }, [dispatch, filter, query, finishedInitialAnim])
 
   useEffect(() => {
     fetchToDos()
@@ -43,11 +62,13 @@ const HomeScreen = () => {
 
   function searchModeShow () {
     setSearchMode(true)
+    startAnim()
   }
 
   function searchModeHide () {
     setSearchMode(false)
     setQuery(null)
+    resetAnim()
   }
 
   function showAddSheet () {
@@ -75,40 +96,19 @@ const HomeScreen = () => {
   return (
     <BottomSheet ref={bottomSheetRef}>
       <DefaultBackground>
-        <View
-          style={[
-            styles.headerContainer,
-            {
-              flex: searchMode ? 0 : 0.3,
-              padding: searchMode ? 0 : 30,
-              paddingVertical: searchMode ? 10 : 30
-            }
-          ]}
+        <Animated.View
+          style={[styles.headerContainer, initialAnimStyle.headerContainerAnim, searchAnimStyle.headerContainerAnim]}
         >
           <Header
+            searchAnimValue={searchAnimValue}
             searchMode={searchMode}
             searchModeShow={searchModeShow}
             searchModeHide={searchModeHide}
             onChangeQuery={onChangeQuery}
           />
-        </View>
-        <Animated.View
-          style={[
-            styles.content,
-            {
-              flex: searchMode ? 1 : 0.75,
-              borderTopLeftRadius: searchMode ? 0 : 40
-            }
-          ]}
-        >
-          <View
-            style={[
-              styles.filterContainer,
-              {
-                elevation: searchMode ? 5 : 0
-              }
-            ]}
-          >
+        </Animated.View>
+        <Animated.View style={[styles.content, initialAnimStyle.contentAnim, searchAnimStyle.contentAnim]}>
+          <View style={[styles[searchMode ? 'filterContainerSearch' : 'filterContainer']]}>
             <FilterRadio filters={filters} value={filter} onChange={setFilter} />
           </View>
           <List
@@ -131,21 +131,25 @@ const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    flex: 0.3,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    padding: 30
+    alignItems: 'flex-end'
   },
   content: {
-    flex: 0.7,
+    flex: 1,
     backgroundColor: Colors.a420,
     overflow: 'hidden',
     borderTopLeftRadius: 40
   },
   filterContainer: {
     padding: 10,
-    backgroundColor: Colors.a420
+    backgroundColor: Colors.a420,
+    elevation: 0
+  },
+  filterContainerSearch: {
+    padding: 10,
+    backgroundColor: Colors.a420,
+    elevation: 5
   },
   btnAdd: {
     padding: 15,
@@ -154,6 +158,58 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 26,
     right: 26
+  }
+})
+
+const initialAnimationStyle: AnimationStyle = anim => ({
+  headerContainerAnim: {
+    opacity: anim,
+    transform: [
+      {
+        translateY: anim.interpolate({
+          inputRange: [0, 1],
+          outputRange: [height * 0.2, 0]
+        })
+      }
+    ]
+  },
+  contentAnim: {
+    opacity: anim.interpolate({
+      inputRange: [0, 0.5],
+      outputRange: [0, 1],
+      extrapolateRight: 1
+    }),
+    transform: [
+      {
+        translateY: anim.interpolate({
+          inputRange: [0, 1],
+          outputRange: [height * 0.7, 0]
+        })
+      }
+    ]
+  }
+})
+
+const searchAnimationStyle: AnimationStyle = anim => ({
+  headerContainerAnim: {
+    height: anim.interpolate({
+      inputRange: [0, 1],
+      outputRange: [height * 0.3, height * 0.075]
+    }),
+    padding: anim.interpolate({
+      inputRange: [0, 1],
+      outputRange: [30, 0]
+    }),
+    paddingVertical: anim.interpolate({
+      inputRange: [0, 1],
+      outputRange: [30, 10]
+    })
+  },
+  contentAnim: {
+    borderTopLeftRadius: anim.interpolate({
+      inputRange: [0, 1],
+      outputRange: [40, 0]
+    })
   }
 })
 

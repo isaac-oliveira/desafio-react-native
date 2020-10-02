@@ -1,6 +1,8 @@
 import React from 'react'
-import { Image, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Image, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import { Colors, Images } from '../Themes'
+
+const { height } = Dimensions.get('window')
 
 const Search = ({ onBack, value, onChangeText }) => {
   return (
@@ -18,6 +20,7 @@ const Search = ({ onBack, value, onChangeText }) => {
 
 const styles = StyleSheet.create({
   container: {
+    height: height * 0.07,
     flexDirection: 'row',
     alignItems: 'center'
   },
