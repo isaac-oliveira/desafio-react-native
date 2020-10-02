@@ -22,7 +22,7 @@ const Images = {
   flag: {
     '24px': require('../Images/bandeira.png')
   },
-  voltar: require('../Images/voltar.png'),
+  back: require('../Images/voltar.png'),
   sol: require('../Images/sol.png')
 }
 
