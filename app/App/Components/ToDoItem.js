@@ -1,17 +1,18 @@
 import React from 'react'
-import { TouchableOpacity, Text, StyleSheet, Image, View } from 'react-native'
+import { TouchableOpacity, StyleSheet, Image, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 
 import { actions as ToDoActions } from '../Redux/ToDo'
 
 import Images from '../Themes/Images'
 import Colors from '../Themes/Colors'
+import TextHighlight from './TextHighlight'
 
-const ToDoItem = ({ item, onItemPress }) => {
+const ToDoItem = ({ query, item, onItemPress }) => {
   const dispatch = useDispatch()
   const { isDone } = item
 
-  function onCheck() {
+  function onCheck () {
     dispatch(ToDoActions.requestToggleToDo(item))
   }
 
@@ -21,7 +22,7 @@ const ToDoItem = ({ item, onItemPress }) => {
         <Image source={Images.check[isDone ? '1' : '0']} />
       </TouchableOpacity>
       <TouchableOpacity style={styles.btnItem} onPress={onItemPress}>
-        <Text
+        <TextHighlight
           style={[
             styles.title,
             {
@@ -29,9 +30,10 @@ const ToDoItem = ({ item, onItemPress }) => {
               color: isDone ? Colors.c400 : Colors.a120
             }
           ]}
+          query={query}
         >
           {item.title}
-        </Text>
+        </TextHighlight>
       </TouchableOpacity>
     </View>
   )

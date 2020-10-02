@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
+import { Animated, StyleSheet, View, Image, TouchableOpacity } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
 import DefaultBackground from '../Components/DefaultBackground'
@@ -8,8 +8,9 @@ import ToDoItem from '../Components/ToDoItem'
 import List from '../Components/List'
 import EmptyList from '../Components/EmptyList'
 import BottomSheet from '../Components/BottomSheet'
+import EmptySearchList from '../Components/EmptySearchList'
+import Header from '../Components/Header'
 import ErrorList from '../Components/ErrorList'
-import Search from '../Components/Search'
 
 import { actions as UiActions } from '../Redux/Ui'
 import ToDoSelector from '../Selectors/ToDoSelector'
@@ -26,94 +27,96 @@ const HomeScreen = () => {
   const bottomSheetRef = useRef(null)
   const [filter, setFilter] = useState('all')
   const [searchMode, setSearchMode] = useState(false)
+  const [query, setQuery] = useState(null)
   const toDos = useSelector(ToDoSelector.sortedToDos)
   const ui = useSelector(state => state.ui)
 
   const dispatch = useDispatch()
 
   const fetchToDos = useCallback(() => {
-    dispatch(UiActions.request(filter))
-  }, [dispatch, filter])
+    dispatch(UiActions.request({ filter, query }))
+  }, [dispatch, filter, query])
 
   useEffect(() => {
     fetchToDos()
   }, [fetchToDos])
 
-  function searchModeShow() {
+  function searchModeShow () {
     setSearchMode(true)
   }
 
-  function searchModeHide() {
+  function searchModeHide () {
     setSearchMode(false)
+    setQuery(null)
   }
-  
-  function showAddSheet() {
-    bottomSheetRef.current?.show(filter, null)
+
+  function showAddSheet () {}
+
+  function onChangeQuery (value) {
+    setQuery(value)
   }
 
   const ListErrorComponent = () => <ErrorList onTryAgain={fetchToDos} />
 
   const renderItem = ({ item }) => {
-    function showEditSheet() {
-      bottomSheetRef.current?.show(filter, item)
-    }
+    function showEditSheet () {}
 
-    return <ToDoItem item={item} onItemPress={showEditSheet} />
+    return <ToDoItem query={query} item={item} onItemPress={showEditSheet} />
   }
 
   return (
     <BottomSheet ref={bottomSheetRef}>
-    <DefaultBackground>
-      <View
-        style={[
+      <DefaultBackground>
+        <View
+          style={[
             styles.headerContainer,
-          {
-            flex: searchMode ? 0 : 0.3,
-            padding: searchMode ? 0 : 30,
-            paddingVertical: searchMode ? 10 : 30
-          }
-        ]}
-      >
+            {
+              flex: searchMode ? 0 : 0.3,
+              padding: searchMode ? 0 : 30,
+              paddingVertical: searchMode ? 10 : 30
+            }
+          ]}
+        >
           <Header
             searchMode={searchMode}
             searchModeShow={searchModeShow}
             searchModeHide={searchModeHide}
             onChangeQuery={onChangeQuery}
           />
-      </View>
-      <View
-        style={[
-          styles.content,
-          {
-            flex: searchMode ? 1 : 0.75,
-            borderTopLeftRadius: searchMode ? 0 : 40
-          }
-        ]}
-      >
-        <View
+        </View>
+        <Animated.View
           style={[
-            styles.filterContainer,
+            styles.content,
             {
-              elevation: searchMode ? 5 : 0
+              flex: searchMode ? 1 : 0.75,
+              borderTopLeftRadius: searchMode ? 0 : 40
             }
           ]}
         >
-          <FilterRadio filters={filters} value={filter} onChange={setFilter} />
-        </View>
-        <List
-          loading={ui.fetching}
-          error={ui.error}
-          data={toDos}
+          <View
+            style={[
+              styles.filterContainer,
+              {
+                elevation: searchMode ? 5 : 0
+              }
+            ]}
+          >
+            <FilterRadio filters={filters} value={filter} onChange={setFilter} />
+          </View>
+          <List
+            loading={ui.fetching}
+            error={ui.error}
+            data={toDos}
             keyExtractor={item => String(item.id)}
-            ListEmptyComponent={EmptyList}
-          ListErrorComponent={ListErrorComponent}
-          renderItem={renderItem}
-        />
+            ListEmptyComponent={searchMode ? EmptySearchList : EmptyList}
+            ListErrorComponent={ListErrorComponent}
+            renderItem={renderItem}
+          />
           <TouchableOpacity style={styles.btnAdd} onPress={showAddSheet}>
-          <Image source={Images.add['36px']} />
-        </TouchableOpacity>
-      </View>
-    </DefaultBackground>
+            <Image source={Images.add['36px']} />
+          </TouchableOpacity>
+        </Animated.View>
+      </DefaultBackground>
     </BottomSheet>
   )
 }

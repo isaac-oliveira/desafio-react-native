@@ -40,14 +40,14 @@ const styles = StyleSheet.create({
     color: Colors.a420,
     textAlign: 'center',
     borderRadius: 50,
-    paddingVertical: 10,
+    paddingVertical: 5,
     paddingHorizontal: 15,
-    marginHorizontal: 5
+    margin: 5
   },
   itemInactive: {
-    paddingVertical: 10,
+    paddingVertical: 5,
     paddingHorizontal: 15,
-    marginHorizontal: 5,
+    margin: 5,
     backgroundColor: Colors.a420,
     color: Colors.c400,
     textAlign: 'center'
