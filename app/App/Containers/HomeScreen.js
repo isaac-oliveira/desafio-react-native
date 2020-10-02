@@ -17,6 +17,7 @@ import { actions as UiActions } from '../Redux/Ui'
 import ToDoSelector from '../Selectors/ToDoSelector'
 import { Colors, Images } from '../Themes'
 import useAnimation, { AnimationStyle } from '../Hooks/useAnimation'
+import UiSelector from '../Selectors/UiSelector'
 
 const { height } = Dimensions.get('screen')
 
@@ -32,8 +33,9 @@ const HomeScreen = () => {
   const [filter, setFilter] = useState('all')
   const [searchMode, setSearchMode] = useState(false)
   const [query, setQuery] = useState(null)
+
   const toDos = useSelector(ToDoSelector.sortedToDos)
-  const ui = useSelector(state => state.ui)
+  const ui = useSelector(UiSelector.ui)
 
   const { animStyle: initialAnimStyle, finishedInitialAnim } = useAnimation({
     duration: 1000,
@@ -41,7 +43,7 @@ const HomeScreen = () => {
     animationStyle: initialAnimationStyle
   })
 
-  const { animStyle: searchAnimStyle, animValue: searchAnimValue, startAnim, resetAnim } = useAnimation({
+  const { animStyle: searchAnimStyle, startAnim, resetAnim } = useAnimation({
     duration: 500,
     autoPlay: false,
     animationStyle: searchAnimationStyle,
@@ -100,7 +102,6 @@ const HomeScreen = () => {
           style={[styles.headerContainer, initialAnimStyle.headerContainerAnim, searchAnimStyle.headerContainerAnim]}
         >
           <Header
-            searchAnimValue={searchAnimValue}
             searchMode={searchMode}
             searchModeShow={searchModeShow}
             searchModeHide={searchModeHide}
