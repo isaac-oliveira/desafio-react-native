@@ -66,7 +66,7 @@ const HomeScreen = () => {
     <DefaultBackground>
       <View
         style={[
-          styles.header,
+            styles.headerContainer,
           {
             flex: searchMode ? 0 : 0.3,
             padding: searchMode ? 0 : 30,
@@ -74,19 +74,12 @@ const HomeScreen = () => {
           }
         ]}
       >
-        {searchMode ? (
-          <Search onBack={searchModeHide} />
-        ) : (
-          <>
-            <View>
-              <Text style={styles.headerTitle}>Hoje</Text>
-              <Text style={styles.headerSubtitle}>29 de set</Text>
-            </View>
-            <TouchableOpacity style={styles.btnSearch} onPress={searchModeShow}>
-              <Image source={Images.search['24px']} />
-            </TouchableOpacity>
-          </>
-        )}
+          <Header
+            searchMode={searchMode}
+            searchModeShow={searchModeShow}
+            searchModeHide={searchModeHide}
+            onChangeQuery={onChangeQuery}
+          />
       </View>
       <View
         style={[
@@ -126,26 +119,12 @@ const HomeScreen = () => {
 }
 
 const styles = StyleSheet.create({
-  header: {
+  headerContainer: {
     flex: 0.3,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     padding: 30
-  },
-  headerTitle: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: Colors.a420
-  },
-  headerSubtitle: {
-    fontSize: 18,
-    color: Colors.c500
-  },
-  btnSearch: {
-    padding: 15,
-    backgroundColor: Colors.a420,
-    borderRadius: 50
   },
   content: {
     flex: 0.7,

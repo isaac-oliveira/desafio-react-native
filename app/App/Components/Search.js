@@ -6,7 +6,7 @@ const Search = ({ onBack, value, onChangeText }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.btnBack} onPress={onBack}>
-        <Image source={Images.voltar} />
+        <Image source={Images.back} />
       </TouchableOpacity>
       <View style={styles.inputContainer}>
         <Image style={styles.searchImg} source={Images.search.white} />
