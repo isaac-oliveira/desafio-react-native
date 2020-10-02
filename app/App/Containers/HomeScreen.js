@@ -50,7 +50,11 @@ const HomeScreen = () => {
     setQuery(null)
   }
 
-  function showAddSheet () {}
+  function showAddSheet () {
+    if (bottomSheetRef.current) {
+      bottomSheetRef.current.show({ filter, query }, null)
+    }
+  }
 
   function onChangeQuery (value) {
     setQuery(value)
@@ -59,7 +63,11 @@ const HomeScreen = () => {
   const ListErrorComponent = () => <ErrorList onTryAgain={fetchToDos} />
 
   const renderItem = ({ item }) => {
-    function showEditSheet () {}
+    function showEditSheet () {
+      if (bottomSheetRef.current) {
+        bottomSheetRef.current.show({ filter, query }, item)
+      }
+    }
 
     return <ToDoItem query={query} item={item} onItemPress={showEditSheet} />
   }

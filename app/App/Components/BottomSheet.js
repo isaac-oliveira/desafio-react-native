@@ -15,13 +15,13 @@ const BottomSheet = ({ children }, ref) => {
     hide
   }))
 
-  async function show(filter, item) {
+  function show (filter, item) {
     setFilter(filter)
     setState(item)
     setVisible(true)
   }
 
-  function hide() {
+  function hide () {
     setVisible(false)
   }
 
