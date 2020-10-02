@@ -1,7 +1,6 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import { Colors } from '../Themes'
+import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { Colors, Images } from '../Themes'
 
 const ErrorList = ({ onTryAgain }) => {
   return (
@@ -9,6 +8,7 @@ const ErrorList = ({ onTryAgain }) => {
       <Text style={styles.title}>Opa!</Text>
       <Text style={styles.subtitle}>Tivemos um problema{'\n'}ao carregar seus lembretes.</Text>
       <TouchableOpacity style={styles.btn} onPress={onTryAgain}>
+        <Image style={styles.btnImg} source={Images.try} />
         <Text style={styles.btnText}>Tentar novamente</Text>
       </TouchableOpacity>
     </View>
@@ -32,7 +32,13 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   btn: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 5
+  },
+  btnImg: {
+    marginRight: 5
   },
   btnText: {
     color: Colors.a220
