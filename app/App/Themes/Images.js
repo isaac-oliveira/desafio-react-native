@@ -8,6 +8,7 @@ const Images = {
   },
   search: {
     '24px': require('../Images/busca_24px.png'),
+    '46px': require('../Images/lupa_46px.png'),
     white: require('../Images/busca-white.png')
   },
   add: {
@@ -23,11 +24,12 @@ const Images = {
     '24px': require('../Images/bandeira.png')
   },
   back: require('../Images/voltar.png'),
-  sol: require('../Images/sol.png'),
+  sun: require('../Images/sol.png'),
   delete: {
     red: require('../Images/lixeira-vermelho.png'),
     white: require('../Images/lixeira-branco.png')
-  }
+  },
+  try: require('../Images/tentar.png')
 }
 
 export default Images
