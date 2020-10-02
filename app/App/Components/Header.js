@@ -1,10 +1,9 @@
 import React from 'react'
-import { Image, StyleSheet, TouchableOpacity } from 'react-native'
-import { Text } from 'react-native'
-import { View } from 'react-native'
+import { Image, StyleSheet, TouchableOpacity, Text, View } from 'react-native'
+
 import moment from 'moment'
 
-import { Images } from '../Themes'
+import { Images, Colors } from '../Themes'
 import Search from './Search'
 
 const Header = ({ searchMode, searchModeShow, searchModeHide, onChangeQuery }) => {
