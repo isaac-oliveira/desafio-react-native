@@ -23,7 +23,11 @@ const Images = {
     '24px': require('../Images/bandeira.png')
   },
   back: require('../Images/voltar.png'),
-  sol: require('../Images/sol.png')
+  sol: require('../Images/sol.png'),
+  delete: {
+    red: require('../Images/lixeira-vermelho.png'),
+    white: require('../Images/lixeira-branco.png')
+  }
 }
 
 export default Images

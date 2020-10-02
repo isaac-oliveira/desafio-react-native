@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react'
-import { TouchableOpacity, Text, View, StyleSheet } from 'react-native'
+import { TouchableOpacity, Text, View, StyleSheet, Image } from 'react-native'
 import { useDispatch } from 'react-redux'
 
 import FormToDo from './FormToDo'
 import { actions as ToDoActions } from '../Redux/ToDo'
-import { Colors } from '../Themes'
+import { Colors, Images } from '../Themes'
 
 const EditToDo = ({ filter, item, hide }) => {
   const dispatch = useDispatch()
@@ -18,7 +18,7 @@ const EditToDo = ({ filter, item, hide }) => {
     [dispatch, filter, item]
   )
 
-  function onDelete() {
+  function onDelete () {
     if (!clickConfirm) {
       setClickConfirm(!clickConfirm)
     } else {
@@ -32,6 +32,7 @@ const EditToDo = ({ filter, item, hide }) => {
       <FormToDo item={item} onChange={onChange} />
       <TouchableOpacity style={[styles.btn, { backgroundColor: Colors.d200[clickConfirm ? 1 : 0] }]} onPress={onDelete}>
         <Text style={[styles.btnText, { color: clickConfirm ? Colors.a420 : Colors.a320 }]}>Apagar</Text>
+        <Image style={styles.img} source={Images.delete[clickConfirm ? 'white' : 'red']} />
       </TouchableOpacity>
     </View>
   )
@@ -39,9 +40,11 @@ const EditToDo = ({ filter, item, hide }) => {
 
 const styles = StyleSheet.create({
   btn: {
+    flexDirection: 'row',
     backgroundColor: Colors.a320,
     paddingVertical: 15,
-    paddingHorizontal: 30,
+    paddingLeft: 30,
+    paddingRight: 20,
     marginVertical: 40,
     justifyContent: 'center',
     alignItems: 'center',
@@ -50,6 +53,9 @@ const styles = StyleSheet.create({
   },
   btnText: {
     color: Colors.a420
+  },
+  img: {
+    marginLeft: 10
   }
 })
 
