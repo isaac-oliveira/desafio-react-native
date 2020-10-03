@@ -1,43 +1,45 @@
 import React, { forwardRef, useImperativeHandle, useEffect, useState } from 'react'
 import { StyleSheet, TouchableOpacity, Text, Image, TextInput, View } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker'
-
-import { Colors, Images } from '../Themes'
 import moment from 'moment'
 
-const FormToDo = ({ item, onChange }, ref) => {
+import { Colors, Images } from '../Themes'
+
+const FormToDo = ({ item, onChangeValues }, ref) => {
   const [date, setDate] = useState(new Date(item?.reminder || Date.now()))
   const [dateMode, setDateMode] = useState('date')
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [showPriorityList, setShowPriorityList] = useState(false)
-  const [title, setTitle] = useState(item?.title)
-  const [reminder, setReminder] = useState(item?.reminder)
-  const [priority, setPriority] = useState(item?.priority)
+  const [values, setValues] = useState(item)
 
   useImperativeHandle(ref, () => ({
-    values: {
-      title,
-      reminder,
-      priority
-    }
+    values
   }))
 
   useEffect(() => {
-    if (onChange) {
-      onChange({ title, reminder, priority })
+    if (onChangeValues && values) {
+      onChangeValues(values)
     }
-  }, [onChange, title, reminder, priority])
+  }, [onChangeValues, values])
 
-  function onDateItem() {
+  function onDateItem () {
     setShowDatePicker(true)
   }
 
-  function onPriorityItem() {
+  function onPriorityItem () {
     setShowPriorityList(true)
   }
 
-  function onPriorityItemSelected(item) {
-    setPriority(item)
+  function setTitle (title) {
+    setValues({ ...values, title })
+  }
+
+  function setReminder (reminder) {
+    setValues({ ...values, reminder })
+  }
+
+  function setPriority (priority) {
+    setValues({ ...values, priority })
     setShowPriorityList(false)
   }
 
@@ -45,7 +47,12 @@ const FormToDo = ({ item, onChange }, ref) => {
     <View>
       <View style={styles.inputContainer}>
         <Image source={Images.check[item?.isDone ? '1' : '0']} />
-        <TextInput style={styles.remindInput} value={title} onChangeText={setTitle} placeholder='Novo lembrete' />
+        <TextInput
+          style={styles.remindInput}
+          value={values?.title}
+          onChangeText={setTitle}
+          placeholder='Novo lembrete'
+        />
       </View>
 
       <TouchableOpacity style={styles.btnAction} onPress={onDateItem}>
@@ -53,8 +60,8 @@ const FormToDo = ({ item, onChange }, ref) => {
           <Image source={Images.bell['24px']} />
           <Text style={styles.btnActionLabel}>Lembrar-me</Text>
         </View>
-        <Text style={styles[reminder ? 'btnActionValue' : 'btnActionValueNull']}>
-          {reminder ? moment(reminder).calendar() : 'Selecione'}
+        <Text style={styles[values?.reminder ? 'btnActionValue' : 'btnActionValueNull']}>
+          {values?.reminder ? moment(values?.reminder).calendar() : 'Selecione'}
         </Text>
       </TouchableOpacity>
 
@@ -64,9 +71,11 @@ const FormToDo = ({ item, onChange }, ref) => {
             <Image source={Images.flag['24px']} />
             <Text style={styles.btnActionLabel}>Prioridade</Text>
           </View>
-          <Text style={styles[priority ? 'btnActionValue' : 'btnActionValueNull']}>{priority || 'Selecione'}</Text>
+          <Text style={styles[values?.priority ? 'btnActionValue' : 'btnActionValueNull']}>
+            {values?.priority || 'Selecione'}
+          </Text>
         </TouchableOpacity>
-        {showPriorityList && <PriorityList itemSelected={priority} onItemSelect={onPriorityItemSelected} />}
+        {showPriorityList && <PriorityList itemSelected={values?.priority} onItemSelect={setPriority} />}
       </View>
 
       {showDatePicker && (
@@ -74,7 +83,7 @@ const FormToDo = ({ item, onChange }, ref) => {
           testID='dateTimePicker'
           mode={dateMode}
           value={date}
-          is24Hour={true}
+          is24Hour
           display='default'
           onChange={(event, value) => {
             if (value) {
@@ -103,13 +112,13 @@ const FormToDo = ({ item, onChange }, ref) => {
 
 const priorityList = ['Nenhum', 'Baixa(!)', 'Média(!!)', 'Alta(!!!)']
 
-function PriorityList({ itemSelected = 'Nenhum', onItemSelect }) {
+function PriorityList ({ itemSelected = 'Nenhum', onItemSelect }) {
   return (
     <View style={styles.priorityListContainer}>
       {priorityList.map(item => {
         const selected = item === itemSelected
 
-        function onPress() {
+        function onPress () {
           onItemSelect(item)
         }
 

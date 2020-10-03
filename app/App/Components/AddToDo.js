@@ -3,37 +3,39 @@ import { TouchableOpacity, View, Text, StyleSheet } from 'react-native'
 import { useDispatch } from 'react-redux'
 
 import FormToDo from './FormToDo'
+
 import { actions as ToDoActions } from '../Redux/ToDo'
+
 import { Colors } from '../Themes'
 
 const AddToDo = ({ filter, hide }) => {
   const dispatch = useDispatch()
 
-  const [state, setState] = useState({
+  const [item, setItem] = useState({
     title: null,
     reminder: null,
     priority: null
   })
 
   const isEmptyFields = useMemo(() => {
-    const keys = Object.keys(state)
-    const every = keys.every(key => !!state[key])
+    const keys = Object.keys(item)
+    const every = keys.every(key => !!item[key])
 
     return every
-  }, [state])
+  }, [item])
 
-  const onChange = useCallback(item => {
-    setState(item)
+  const onChangeValues = useCallback(values => {
+    setItem(values)
   }, [])
 
-  function onAdd() {
-    dispatch(ToDoActions.requestCreateToDo({ filter, item: state }))
+  function onAdd () {
+    dispatch(ToDoActions.requestCreateToDo({ filter, item }))
     hide()
   }
 
   return (
     <View>
-      <FormToDo onChange={onChange} />
+      <FormToDo onChangeValues={onChangeValues} />
       <TouchableOpacity
         style={[styles.btn, { backgroundColor: Colors.d100[isEmptyFields ? 2 : 1] }]}
         disabled={!isEmptyFields}
