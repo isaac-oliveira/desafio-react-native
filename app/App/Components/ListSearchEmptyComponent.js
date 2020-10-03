@@ -1,13 +1,14 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
+
 import { Colors, Images } from '../Themes'
 
-const EmptyList = () => {
+const ListSearchEmptyComponent = () => {
   return (
     <View style={styles.container}>
-      <Image source={Images.sun} />
-      <Text style={styles.title}>Tudo limpo!</Text>
-      <Text style={styles.subtitle}>Adicione um novo lembrete{'\n'}tocando no ‘+’.</Text>
+      <Image source={Images.search['46px']} />
+      <Text style={styles.title}>Nenhum resultado</Text>
+      <Text style={styles.subtitle}>Tente buscar por outro termo{'\n'}ou parte da palavra.</Text>
     </View>
   )
 }
@@ -21,7 +22,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 21,
     textAlign: 'center',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginTop: 20
   },
   subtitle: {
     fontSize: 16,
@@ -29,5 +31,4 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   }
 })
-
-export default EmptyList
+export default ListSearchEmptyComponent

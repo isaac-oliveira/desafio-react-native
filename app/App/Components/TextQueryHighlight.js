@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
+
 import { Colors } from '../Themes'
 
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
   query: string;
 }
 
-const TextHighlight = ({ style, children, query }: Props) => {
+const TextQueryHighlight = ({ style, children, query }: Props) => {
   const index = query ? children?.toLowerCase().indexOf(query?.toLowerCase()) : -1
   if (index === -1) {
     return <Text style={style}>{children}</Text>
@@ -37,4 +38,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default TextHighlight
+export default TextQueryHighlight

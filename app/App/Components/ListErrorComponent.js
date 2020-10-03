@@ -1,8 +1,9 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+
 import { Colors, Images } from '../Themes'
 
-const ErrorList = ({ onTryAgain }) => {
+const ListErrorComponent = ({ onTryAgain }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Opa!</Text>
@@ -45,4 +46,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default ErrorList
+export default ListErrorComponent

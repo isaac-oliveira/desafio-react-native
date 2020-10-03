@@ -2,11 +2,11 @@ import React from 'react'
 import { TouchableOpacity, StyleSheet, Image, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 
+import TextQueryHighlight from './TextQueryHighlight'
+
 import { actions as ToDoActions } from '../Redux/ToDo'
 
-import Images from '../Themes/Images'
-import Colors from '../Themes/Colors'
-import TextHighlight from './TextHighlight'
+import { Colors, Images } from '../Themes'
 
 const ToDoItem = ({ query, item, onItemPress }) => {
   const dispatch = useDispatch()
@@ -22,7 +22,7 @@ const ToDoItem = ({ query, item, onItemPress }) => {
         <Image source={Images.check[isDone ? '1' : '0']} />
       </TouchableOpacity>
       <TouchableOpacity style={styles.btnItem} onPress={onItemPress}>
-        <TextHighlight
+        <TextQueryHighlight
           style={[
             styles.title,
             {
@@ -33,7 +33,7 @@ const ToDoItem = ({ query, item, onItemPress }) => {
           query={query}
         >
           {item.title}
-        </TextHighlight>
+        </TextQueryHighlight>
       </TouchableOpacity>
     </View>
   )
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   check: {
     padding: 15,
     borderRadius: 15,
-    backgroundColor: '#000'
+    backgroundColor: Colors.a120
   },
   btnItem: {
     flex: 1,

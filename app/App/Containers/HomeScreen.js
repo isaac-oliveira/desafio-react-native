@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import Animated, { Easing } from 'react-native-reanimated'
 
 import DefaultBackground from '../Components/DefaultBackground'
-import FilterRadio from '../Components/FilterRadio'
+import ToggleFilter from '../Components/ToggleFilter'
 import ToDoItem from '../Components/ToDoItem'
 import List from '../Components/List'
-import EmptyList from '../Components/EmptyList'
+import ListError from '../Components/ListErrorComponent'
+import ListSearchEmptyComponent from '../Components/ListSearchEmptyComponent'
+import ListToDoEmptyComponent from '../Components/ListToDoEmptyComponent'
 import BottomSheet from '../Components/BottomSheet'
-import EmptySearchList from '../Components/EmptySearchList'
 import Header from '../Components/Header'
-import ErrorList from '../Components/ErrorList'
 
 import { actions as UiActions } from '../Redux/Ui'
 import ToDoSelector from '../Selectors/ToDoSelector'
@@ -80,10 +80,10 @@ const HomeScreen = () => {
   }
 
   function onChangeQuery (value) {
-    setQuery(value)
+    // setQuery(value)
   }
 
-  const ListErrorComponent = () => <ErrorList onTryAgain={fetchToDos} />
+  const ListErrorComponent = () => <ListError onTryAgain={fetchToDos} />
 
   const renderItem = ({ item }) => {
     function showEditSheet () {
@@ -109,15 +109,20 @@ const HomeScreen = () => {
           />
         </Animated.View>
         <Animated.View style={[styles.content, initialAnimStyle.contentAnim, searchAnimStyle.contentAnim]}>
-          <View style={[styles[searchMode ? 'filterContainerSearch' : 'filterContainer']]}>
-            <FilterRadio filters={filters} value={filter} onChange={setFilter} />
+          <View style={styles[searchMode ? 'filterContainerSearch' : 'filterContainer']}>
+            <ToggleFilter
+              loading={ui.fetching && !finishedInitialAnim}
+              filters={filters}
+              value={filter}
+              onChange={setFilter}
+            />
           </View>
           <List
             loading={ui.fetching}
             error={ui.error}
             data={toDos}
             keyExtractor={item => String(item.id)}
-            ListEmptyComponent={searchMode ? EmptySearchList : EmptyList}
+            ListEmptyComponent={searchMode ? ListSearchEmptyComponent : ListToDoEmptyComponent}
             ListErrorComponent={ListErrorComponent}
             renderItem={renderItem}
           />
