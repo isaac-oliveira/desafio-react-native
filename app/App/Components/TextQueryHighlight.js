@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
 
+import splitQueryText from '../Helpers/splitQueryText'
 import { Colors } from '../Themes'
 
 interface Props {
@@ -10,22 +11,20 @@ interface Props {
 }
 
 const TextQueryHighlight = ({ style, children, query }: Props) => {
-  const index = query ? children?.toLowerCase().indexOf(query?.toLowerCase()) : -1
-  if (index === -1) {
-    return <Text style={style}>{children}</Text>
-  }
-
-  const textHighlight = [
-    children.slice(0, index),
-    children.slice(index, index + query.length),
-    children.slice(index + query.length)
-  ]
+  const splits = splitQueryText(children, query)
 
   return (
     <Text style={style}>
-      {textHighlight[0]}
-      <Text style={styles.bold}>{textHighlight[1]}</Text>
-      {textHighlight[2]}
+      {splits.map((str, index) => {
+        if (str.toLowerCase() === query.toLowerCase()) {
+          return (
+            <Text key={`${index}`} style={styles.bold}>
+              {str}
+            </Text>
+          )
+        }
+        return str
+      })}
     </Text>
   )
 }
