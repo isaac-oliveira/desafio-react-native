@@ -7,7 +7,7 @@ import { Images, Colors } from '../Themes'
 import Search from './Search'
 import Animated from 'react-native-reanimated'
 
-const Header = ({ searchMode, searchModeShow, searchModeHide, onChangeQuery }) => {
+const Header = ({ searchMode, searchModeShow, searchModeHide }) => {
   const [showSearch, setShowSearch] = useState(searchMode)
 
   const searchAnim = useAnimation({
@@ -39,7 +39,7 @@ const Header = ({ searchMode, searchModeShow, searchModeHide, onChangeQuery }) =
   if (showSearch) {
     return (
       <Animated.View style={searchAnim.animStyle.searchContainerAnim}>
-        <Search onBack={searchMode ? searchModeHide : searchModeShow} onChangeText={onChangeQuery} />
+        <Search onBack={searchMode ? searchModeHide : searchModeShow} />
       </Animated.View>
     )
   }

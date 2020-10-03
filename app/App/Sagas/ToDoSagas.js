@@ -7,7 +7,7 @@ import { actions as UiActions } from '../Redux/Ui'
 import { Api } from '../Services/Api'
 
 function * fetchToDos (api: Api, action: PayloadAction) {
-  const { filter, query } = action.payload
+  const filter = action.payload
 
   let response = null
   if (filter === 'all') {
@@ -17,14 +17,6 @@ function * fetchToDos (api: Api, action: PayloadAction) {
   }
   if (!response.ok) {
     yield put(UiActions.error())
-    return
-  }
-
-  if (query) {
-    yield put(UiActions.success())
-    yield put(
-      ToDosActions.setToDos(response.data.filter(item => item.title.toLowerCase().includes(query.toLowerCase())))
-    )
     return
   }
 

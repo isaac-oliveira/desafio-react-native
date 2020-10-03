@@ -32,9 +32,8 @@ const HomeScreen = () => {
   const bottomSheetRef = useRef(null)
   const [filter, setFilter] = useState('all')
   const [searchMode, setSearchMode] = useState(false)
-  const [query, setQuery] = useState(null)
 
-  const toDos = useSelector(ToDoSelector.sortedToDos)
+  const toDos = useSelector(ToDoSelector.getToDos)
   const ui = useSelector(UiSelector.ui)
 
   const { animStyle: initialAnimStyle, finishedInitialAnim } = useAnimation({
@@ -54,45 +53,40 @@ const HomeScreen = () => {
 
   const fetchToDos = useCallback(() => {
     if (finishedInitialAnim) {
-      dispatch(UiActions.request({ filter, query }))
+      dispatch(UiActions.request(filter))
     }
-  }, [dispatch, filter, query, finishedInitialAnim])
+  }, [dispatch, filter, finishedInitialAnim])
 
   useEffect(() => {
     fetchToDos()
   }, [fetchToDos])
 
-  function searchModeShow () {
+  function searchModeShow() {
     setSearchMode(true)
     startAnim()
   }
 
-  function searchModeHide () {
+  function searchModeHide() {
     setSearchMode(false)
-    setQuery(null)
     resetAnim()
   }
 
-  function showAddSheet () {
+  function showAddSheet() {
     if (bottomSheetRef.current) {
-      bottomSheetRef.current.show({ filter, query }, null)
-    }
+      bottomSheetRef.current.show(filter, null)
   }
-
-  function onChangeQuery (value) {
-    // setQuery(value)
   }
 
   const ListErrorComponent = () => <ListError onTryAgain={fetchToDos} />
 
   const renderItem = ({ item }) => {
-    function showEditSheet () {
+    function showEditSheet() {
       if (bottomSheetRef.current) {
-        bottomSheetRef.current.show({ filter, query }, item)
+        bottomSheetRef.current.show(filter, item)
       }
     }
 
-    return <ToDoItem query={query} item={item} onItemPress={showEditSheet} />
+    return <ToDoItem item={item} onItemPress={showEditSheet} />
   }
 
   return (
@@ -105,7 +99,6 @@ const HomeScreen = () => {
             searchMode={searchMode}
             searchModeShow={searchModeShow}
             searchModeHide={searchModeHide}
-            onChangeQuery={onChangeQuery}
           />
         </Animated.View>
         <Animated.View style={[styles.content, initialAnimStyle.contentAnim, searchAnimStyle.contentAnim]}>

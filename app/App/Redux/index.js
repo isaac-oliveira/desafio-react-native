@@ -9,10 +9,12 @@ import type { State as ToDoEntityState } from '../Features/ToDo/Redux/Entity'
 
 import ui from './Ui'
 import toDo from './ToDo'
+import search from './Search'
 
 const rootReducer = combineReducers({
   ui,
-  toDo
+  toDo,
+  search
 })
 
 export default () => {

@@ -1,15 +1,22 @@
 import { createSelector } from '@reduxjs/toolkit'
 import { orderBy } from 'lodash'
 
-export const toDos = state => state.toDo
+export const state = ({ toDo, search }) => ({ toDo, search })
 
-export const sortedToDos = createSelector(toDos, toDos => {
-  const sorted = orderBy(toDos.data, ['isDone'], ['asc'])
+export const getToDos = createSelector(state, ({ toDo, search }) => {
+  const sorted = orderBy(toDo.data, ['isDone', 'title'], ['asc'])
+
+  if (search.query) {
+    const searchableToDo = sorted.filter(item => {
+      return item.title.toLowerCase().includes(search.query.toLowerCase())
+    })
+
+    return searchableToDo
+  }
 
   return sorted
 })
 
 export default {
-  toDos,
-  sortedToDos
+  getToDos
 }

@@ -1,13 +1,30 @@
 import React from 'react'
 import { Dimensions, Image, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
+import { useDispatch } from 'react-redux'
+
+import { actions as SearchActions } from '../Redux/Search'
+
 import { Colors, Images } from '../Themes'
 
 const { height } = Dimensions.get('window')
 
-const Search = ({ onBack, value, onChangeText }) => {
+const Search = ({ onBack, value }) => {
+  const dispatch = useDispatch()
+
+  function onPress() {
+    if (onBack) {
+      onBack()
+    }
+    dispatch(SearchActions.updateQuery(''))
+  }
+
+  function onChangeText(value) {
+    dispatch(SearchActions.updateQuery(value))
+  }
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.btnBack} onPress={onBack}>
+      <TouchableOpacity style={styles.btnBack} onPress={onPress}>
         <Image source={Images.back} />
       </TouchableOpacity>
       <View style={styles.inputContainer}>

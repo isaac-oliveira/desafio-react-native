@@ -1,18 +1,20 @@
 import React from 'react'
 import { TouchableOpacity, StyleSheet, Image, View } from 'react-native'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import TextQueryHighlight from './TextQueryHighlight'
 
 import { actions as ToDoActions } from '../Redux/ToDo'
+import SearchSelector from '../Selectors/SearchSelector'
 
 import { Colors, Images } from '../Themes'
 
-const ToDoItem = ({ query, item, onItemPress }) => {
+const ToDoItem = ({ item, onItemPress }) => {
+  const query = useSelector(SearchSelector.query)
   const dispatch = useDispatch()
   const { isDone } = item
 
-  function onCheck () {
+  function onCheck() {
     dispatch(ToDoActions.requestToggleToDo(item))
   }
 
