@@ -4,9 +4,11 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import { actions as ToDosActions } from '../Redux/ToDo'
 import { actions as UiActions } from '../Redux/Ui'
 
-import { Api } from '../Services/Api'
+import Api from '../Services/Api'
 
-function * fetchToDos (api: Api, action: PayloadAction) {
+const api = Api.create()
+
+function * fetchToDos (action: PayloadAction) {
   const filter = action.payload
 
   let response = null
@@ -24,14 +26,14 @@ function * fetchToDos (api: Api, action: PayloadAction) {
   yield put(ToDosActions.setToDos(response.data))
 }
 
-function * fetchToggleToDo (api: Api, action: PayloadAction) {
+function * fetchToggleToDo (action: PayloadAction) {
   const item = action.payload
   yield put(ToDosActions.toggleToDo(item))
 
   yield call(api.toggleToDo, item)
 }
 
-function * fetchUpdateToDo (api: Api, action: PayloadAction) {
+function * fetchUpdateToDo (action: PayloadAction) {
   const { filter, item } = action.payload
 
   const response = yield call(api.putToDo, item)
@@ -40,7 +42,7 @@ function * fetchUpdateToDo (api: Api, action: PayloadAction) {
   }
 }
 
-function * fetchDeleteToDo (api: Api, action: PayloadAction) {
+function * fetchDeleteToDo (action: PayloadAction) {
   const { filter, item } = action.payload
 
   const response = yield call(api.deleteToDo, item.id)
@@ -49,7 +51,7 @@ function * fetchDeleteToDo (api: Api, action: PayloadAction) {
   }
 }
 
-function * fetchCreateToDo (api: Api, action: PayloadAction) {
+function * fetchCreateToDo (action: PayloadAction) {
   const { filter, item } = action.payload
 
   const response = yield call(api.postToDo, { ...item, isDone: false, description: '' })
@@ -58,26 +60,26 @@ function * fetchCreateToDo (api: Api, action: PayloadAction) {
   }
 }
 
-export function * createToDo (api: Api, action: PayloadAction) {
-  yield takeLatest(ToDosActions.requestCreateToDo, fetchCreateToDo, api)
+export function * createToDo (action: PayloadAction) {
+  yield takeLatest(ToDosActions.requestCreateToDo, fetchCreateToDo)
 }
 
-export function * updateToDo (api: Api, action: PayloadAction) {
-  yield takeLatest(ToDosActions.requestUpdateToDo, fetchUpdateToDo, api)
+export function * updateToDo (action: PayloadAction) {
+  yield takeLatest(ToDosActions.requestUpdateToDo, fetchUpdateToDo)
 }
 
-export function * deleteToDo (api: Api, action: PayloadAction) {
-  yield takeLatest(ToDosActions.requestDeleteToDo, fetchDeleteToDo, api)
+export function * deleteToDo (action: PayloadAction) {
+  yield takeLatest(ToDosActions.requestDeleteToDo, fetchDeleteToDo)
 }
 
-export function * toggleToDo (api: Api, action: PayloadAction) {
-  yield takeLatest(ToDosActions.requestToggleToDo, fetchToggleToDo, api)
+export function * toggleToDo (action: PayloadAction) {
+  yield takeLatest(ToDosActions.requestToggleToDo, fetchToggleToDo)
 }
 
-export const refreshToDos = function * (api: Api, action: PayloadAction) {
-  yield takeLatest(ToDosActions.refreshToDos, fetchToDos, api)
+export const refreshToDos = function * (action: PayloadAction) {
+  yield takeLatest(ToDosActions.refreshToDos, fetchToDos)
 }
 
-export const getToDos = function * (api: Api, action: PayloadAction) {
-  yield takeLatest(UiActions.request, fetchToDos, api)
+export const getToDos = function * (action: PayloadAction) {
+  yield takeLatest(UiActions.request, fetchToDos)
 }
