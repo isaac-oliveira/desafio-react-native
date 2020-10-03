@@ -10,7 +10,7 @@ const FormToDo = ({ item, onChangeValues }, ref) => {
   const [dateMode, setDateMode] = useState('date')
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [showPriorityList, setShowPriorityList] = useState(false)
-  const [values, setValues] = useState(item)
+  const [values, setValues] = useState(item || null)
 
   useImperativeHandle(ref, () => ({
     values

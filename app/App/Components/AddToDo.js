@@ -25,7 +25,7 @@ const AddToDo = ({ filter, hide }) => {
   }, [item])
 
   const onChangeValues = useCallback(values => {
-    setItem(values)
+    setItem(state => ({ ...state, ...values }))
   }, [])
 
   function onAdd () {
