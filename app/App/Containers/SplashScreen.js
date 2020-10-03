@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Image } from 'react-native'
+
 import DefaultBackground from '../Components/DefaultBackground'
 import { Images } from '../Themes'
 

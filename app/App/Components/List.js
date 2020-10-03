@@ -1,5 +1,6 @@
 import React from 'react'
 import { ActivityIndicator, FlatList, StyleSheet } from 'react-native'
+
 import { Colors } from '../Themes'
 
 const List = ({ loading, error, ListErrorComponent, ...rest }) => {

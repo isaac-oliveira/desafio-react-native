@@ -1,19 +1,22 @@
 import { useEffect, useRef, useState } from 'react'
-import { StyleSheet } from 'react-native'
-
+import { ViewStyle } from 'react-native'
 import Animated, { Easing } from 'react-native-reanimated'
 
-export type AnimationStyle = (anim: Animated.Value) => StyleSheet.NamedStyles
+interface AnimStyleObject {
+  [key: string]: ViewStyle;
+}
+
+export type AnimationStyle = (anim: Animated.Value) => AnimStyleObject
 
 interface Props {
-  duration: Number;
-  autoPlay: Boolean;
+  duration?: Number;
+  autoPlay?: Boolean;
   animationStyle: AnimationStyle;
-  easing: Easing;
+  easing?: Easing;
 }
 
 const useAnimation = ({ duration = 2000, autoPlay, animationStyle, easing = Easing.exp }: Props) => {
-  const [finishedInitialAnim, setFinishedInitialAnim] = useState(false)
+  const [finishedInitialAnim, setFinishedInitialAnim] = useState(!autoPlay)
   const animValue = useRef(new Animated.Value(0)).current
 
   useEffect(() => {

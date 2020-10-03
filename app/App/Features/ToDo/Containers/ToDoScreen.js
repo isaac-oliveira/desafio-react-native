@@ -2,6 +2,7 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import { View, Text, ImageBackground, Image, TouchableOpacity, FlatList } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import type { StackNavigationProp } from '@react-navigation/stack'
 
 import ToDo from '../Components/ToDo'
 import TogglableText from '../Components/TogglableText'
@@ -12,8 +13,6 @@ import ToDoUISelections from '../Selectors/Ui'
 
 import styles from './ToDoScreen.style'
 import { Images } from '../../../Themes'
-
-import type { StackNavigationProp } from '@react-navigation/stack'
 
 import moment from 'moment'
 

@@ -13,11 +13,14 @@ import ListToDoEmptyComponent from '../Components/ListToDoEmptyComponent'
 import BottomSheet from '../Components/BottomSheet'
 import Header from '../Components/Header'
 
-import { actions as UiActions } from '../Redux/Ui'
-import ToDoSelector from '../Selectors/ToDoSelector'
-import { Colors, Images } from '../Themes'
 import useAnimation, { AnimationStyle } from '../Hooks/useAnimation'
+
+import { actions as UiActions } from '../Redux/Ui'
+
+import ToDoSelector from '../Selectors/ToDoSelector'
 import UiSelector from '../Selectors/UiSelector'
+
+import { Colors, Images } from '../Themes'
 
 const { height } = Dimensions.get('screen')
 
@@ -25,7 +28,7 @@ const filters = [
   { title: 'Todos', value: 'all' },
   { title: 'Hoje', value: 'today' },
   { title: 'Esta Semana', value: 'week' },
-  { title: 'Atrasadas', value: 'month' }
+  { title: 'Este Mês', value: 'month' }
 ]
 
 const HomeScreen = () => {
@@ -61,26 +64,26 @@ const HomeScreen = () => {
     fetchToDos()
   }, [fetchToDos])
 
-  function searchModeShow() {
+  function searchModeShow () {
     setSearchMode(true)
     startAnim()
   }
 
-  function searchModeHide() {
+  function searchModeHide () {
     setSearchMode(false)
     resetAnim()
   }
 
-  function showAddSheet() {
+  function showAddSheet () {
     if (bottomSheetRef.current) {
       bottomSheetRef.current.show(filter, null)
-  }
+    }
   }
 
   const ListErrorComponent = () => <ListError onTryAgain={fetchToDos} />
 
   const renderItem = ({ item }) => {
-    function showEditSheet() {
+    function showEditSheet () {
       if (bottomSheetRef.current) {
         bottomSheetRef.current.show(filter, item)
       }
@@ -92,15 +95,14 @@ const HomeScreen = () => {
   return (
     <BottomSheet ref={bottomSheetRef}>
       <DefaultBackground>
-        <Animated.View
-          style={[styles.headerContainer, initialAnimStyle.headerContainerAnim, searchAnimStyle.headerContainerAnim]}
-        >
-          <Header
-            searchMode={searchMode}
-            searchModeShow={searchModeShow}
-            searchModeHide={searchModeHide}
-          />
-        </Animated.View>
+        <Header
+          style={styles.headerContainer}
+          animStyle={[initialAnimStyle.headerContainerAnim, searchAnimStyle.headerContainerAnim]}
+          searchMode={searchMode}
+          searchModeShow={searchModeShow}
+          searchModeHide={searchModeHide}
+        />
+
         <Animated.View style={[styles.content, initialAnimStyle.contentAnim, searchAnimStyle.contentAnim]}>
           <View style={styles[searchMode ? 'filterContainerSearch' : 'filterContainer']}>
             <ToggleFilter

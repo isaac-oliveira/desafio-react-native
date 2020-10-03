@@ -1,12 +1,14 @@
 // @flow
 import { configureStore } from '@reduxjs/toolkit'
-import Reactotron from '../Config/ReactotronConfig'
 import createSagaMiddleware from 'redux-saga'
 import { persistReducer } from 'redux-persist'
-import rootSaga from '../Sagas'
-import type { Reducer } from './Entities'
+
+import Reactotron from '../Config/ReactotronConfig'
 import Config from '../Config/DebugConfig'
 import persistConfig from '../Config/ReduxPersist'
+
+import type { Reducer } from './Entities'
+import rootSaga from '../Sagas'
 
 type Configuration = {
   rootReducer: Reducer<any>

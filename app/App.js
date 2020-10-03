@@ -5,11 +5,14 @@ import { StatusBar } from 'react-native'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 
-import RootContainer from './App/Containers/RootContainer'
-import configureStore from './App/Redux'
 import Config from './App/Config/DebugConfig'
+import RootContainer from './App/Containers/RootContainer'
 import SplashScreen from './App/Containers/SplashScreen'
+
+import configureStore from './App/Redux'
+
 import { Colors } from './App/Themes'
+
 import StorybookUI from './storybook'
 
 const { store, persistor } = configureStore()
