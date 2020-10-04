@@ -6,19 +6,19 @@ import { actions as SearchActions } from '../Redux/Search'
 
 import { Colors, Images } from '../Themes'
 
-const { height } = Dimensions.get('window')
+const { height } = Dimensions.get('screen')
 
 const Search = ({ onBack, value }) => {
   const dispatch = useDispatch()
 
-  function onPress() {
+  function onPress () {
     if (onBack) {
       onBack()
     }
     dispatch(SearchActions.updateQuery(''))
   }
 
-  function onChangeText(value) {
+  function onChangeText (value) {
     dispatch(SearchActions.updateQuery(value))
   }
 
@@ -37,8 +37,9 @@ const Search = ({ onBack, value }) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: height * 0.07,
+    height: height * 0.075,
     flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center'
   },
   btnBack: {

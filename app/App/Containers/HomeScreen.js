@@ -96,8 +96,7 @@ const HomeScreen = () => {
     <BottomSheet ref={bottomSheetRef}>
       <DefaultBackground>
         <Header
-          style={styles.headerContainer}
-          animStyle={[initialAnimStyle.headerContainerAnim, searchAnimStyle.headerContainerAnim]}
+          animStyle={[initialAnimStyle.headerContainerAnim]}
           searchMode={searchMode}
           searchModeShow={searchModeShow}
           searchModeHide={searchModeHide}
@@ -131,24 +130,35 @@ const HomeScreen = () => {
 }
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end'
-  },
   content: {
     flex: 1,
+    position: 'absolute',
+    top: height * 0.3,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: Colors.a420,
+    overflow: 'hidden',
+    borderTopLeftRadius: 40
+  },
+  contentScroll: {
+    flex: 1,
+    position: 'relative',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
     backgroundColor: Colors.a420,
     overflow: 'hidden',
     borderTopLeftRadius: 40
   },
   filterContainer: {
-    padding: 10,
+    padding: 5,
     backgroundColor: Colors.a420,
     elevation: 0
   },
   filterContainerSearch: {
-    padding: 10,
+    padding: 5,
     backgroundColor: Colors.a420,
     elevation: 5
   },
@@ -192,21 +202,11 @@ const initialAnimationStyle: AnimationStyle = anim => ({
 })
 
 const searchAnimationStyle: AnimationStyle = anim => ({
-  headerContainerAnim: {
-    height: anim.interpolate({
+  contentAnim: {
+    top: anim.interpolate({
       inputRange: [0, 1],
       outputRange: [height * 0.3, height * 0.075]
     }),
-    padding: anim.interpolate({
-      inputRange: [0, 1],
-      outputRange: [30, 0]
-    }),
-    paddingVertical: anim.interpolate({
-      inputRange: [0, 1],
-      outputRange: [30, 10]
-    })
-  },
-  contentAnim: {
     borderTopLeftRadius: anim.interpolate({
       inputRange: [0, 1],
       outputRange: [40, 0]
