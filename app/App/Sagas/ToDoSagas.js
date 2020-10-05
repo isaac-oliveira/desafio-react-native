@@ -1,5 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 import { PayloadAction } from '@reduxjs/toolkit'
+import moment from 'moment'
 
 import { actions as ToDosActions } from '../Redux/ToDo'
 import { actions as UiActions } from '../Redux/Ui'
@@ -12,7 +13,7 @@ function * fetchToDos (action: PayloadAction) {
   const filter = action.payload
 
   let response = null
-  if (filter === 'all') {
+  if (filter === 'all' || filter === 'late') {
     response = yield call(api.getToDos)
   } else {
     response = yield call(api.getFilteredToDos, filter)
@@ -23,6 +24,14 @@ function * fetchToDos (action: PayloadAction) {
   }
 
   yield put(UiActions.success())
+
+  if (filter === 'late') {
+    const lates = response.data.filter(toDo => moment(toDo.reminder).isBefore(Date.now()) && !toDo.isDone)
+    yield put(ToDosActions.setToDos(lates))
+
+    return
+  }
+
   yield put(ToDosActions.setToDos(response.data))
 }
 

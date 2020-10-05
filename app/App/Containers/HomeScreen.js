@@ -28,7 +28,7 @@ const filters = [
   { title: 'Todos', value: 'all' },
   { title: 'Hoje', value: 'today' },
   { title: 'Esta Semana', value: 'week' },
-  { title: 'Este Mês', value: 'month' }
+  { title: 'Atrasadas', value: 'late' }
 ]
 
 const HomeScreen = () => {
