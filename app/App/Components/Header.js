@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Image, StyleSheet, TouchableOpacity, Text, View, Dimensions } from 'react-native'
+import type { ViewStyle } from 'react-native'
 import Animated from 'react-native-reanimated'
 import moment from 'moment'
 
@@ -11,7 +12,14 @@ import { Images, Colors } from '../Themes'
 
 const { height } = Dimensions.get('screen')
 
-const Header = ({ animStyle, searchMode, searchModeShow, searchModeHide }) => {
+type Props = {
+  animStyle: ViewStyle,
+  searchMode: boolean,
+  searchModeShow(): void,
+  searchModeHide(): void
+}
+
+const Header = ({ animStyle, searchMode, searchModeShow, searchModeHide }: Props) => {
   const [showSearch, setShowSearch] = useState(searchMode)
 
   const searchAnim = useAnimation({

@@ -8,7 +8,12 @@ import { Colors, Images } from '../Themes'
 
 const { height } = Dimensions.get('screen')
 
-const Search = ({ onBack, value }) => {
+type Props = {
+  onBack(): void,
+  value: string
+}
+
+const Search = ({ onBack, value }: Props) => {
   const dispatch = useDispatch()
 
   function onPress () {
@@ -18,7 +23,7 @@ const Search = ({ onBack, value }) => {
     dispatch(SearchActions.updateQuery(''))
   }
 
-  function onChangeText (value) {
+  function onChangeText (value: String) {
     dispatch(SearchActions.updateQuery(value))
   }
 

@@ -1,9 +1,15 @@
 import React from 'react'
 import { StyleSheet, ImageBackground } from 'react-native'
+import type { ViewStyle } from 'react-native'
 
 import { Images } from '../Themes'
 
-const DefaultBackground = ({ children, style }) => {
+type Props = {
+  children: React.ReactNode,
+  style: ViewStyle
+}
+
+const DefaultBackground = ({ children, style }: Props) => {
   return (
     <ImageBackground style={[style, styles.container]} source={Images.appBackground}>
       {children}

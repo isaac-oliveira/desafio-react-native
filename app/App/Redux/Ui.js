@@ -1,7 +1,12 @@
 // @flow
 import { createSlice } from '@reduxjs/toolkit'
 
-const INITIAL_STATE = {
+export type State = {
+  fetching: boolean,
+  error: boolean
+}
+
+const INITIAL_STATE: State = {
   fetching: true,
   error: false
 }
@@ -10,17 +15,17 @@ const uiSlice = createSlice({
   name: 'ui',
   initialState: INITIAL_STATE,
   reducers: {
-    request: state => ({
+    request: (state: State) => ({
       ...state,
       fetching: true,
       error: false
     }),
-    error: state => ({
+    error: (state: State) => ({
       ...state,
       fetching: false,
       error: true
     }),
-    success: state => ({
+    success: (state: State) => ({
       ...state,
       fetching: false,
       error: false

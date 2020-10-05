@@ -3,7 +3,11 @@ import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 
 import { Colors, Images } from '../Themes'
 
-const ListErrorComponent = ({ onTryAgain }) => {
+type Props = {
+  onTryAgain(): void
+}
+
+const ListErrorComponent = ({ onTryAgain }: Props) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Opa!</Text>

@@ -1,7 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit'
 import { orderBy } from 'lodash'
 
-export const state = ({ toDo, search }) => ({ toDo, search })
+import type { GlobalState } from '../Redux'
+
+export const state = ({ toDo, search }: GlobalState) => ({ toDo, search })
 
 export const getToDos = createSelector(state, ({ toDo, search }) => {
   const sorted = orderBy(toDo.data, ['isDone', 'title'], ['asc'])

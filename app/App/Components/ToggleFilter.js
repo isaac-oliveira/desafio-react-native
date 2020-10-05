@@ -5,7 +5,14 @@ import { Colors } from '../Themes'
 
 const { height, fontScale } = Dimensions.get('screen')
 
-const ToggleFilter = ({ loading, filters, value, onChange }) => {
+type Props = {
+  loading: boolean,
+  filters: string[],
+  value: string,
+  onChange(value: string): void
+}
+
+const ToggleFilter = ({ loading, filters, value, onChange }: Props) => {
   const [current, setCurrent] = useState(value || 'all')
 
   useEffect(() => {
@@ -42,7 +49,12 @@ const ToggleFilter = ({ loading, filters, value, onChange }) => {
   )
 }
 
-function ToggleFilterLoading ({ filters, current }) {
+type ToggleFilterLoadingProps = {
+  filters: String[],
+  current: String
+}
+
+function ToggleFilterLoading ({ filters, current }: ToggleFilterLoadingProps) {
   return (
     <View style={styles.container}>
       {filters.map(filter => {

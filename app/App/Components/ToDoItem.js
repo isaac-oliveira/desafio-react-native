@@ -6,15 +6,21 @@ import TextQueryHighlight from './TextQueryHighlight'
 
 import { actions as ToDoActions } from '../Redux/ToDo'
 import SearchSelector from '../Selectors/SearchSelector'
+import type { ToDoType } from '../Entities/ToDo'
 
 import { Colors, Images } from '../Themes'
 
-const ToDoItem = ({ item, onItemPress }) => {
+type Props = {
+  item: ToDoType,
+  onItemPress(): void
+}
+
+const ToDoItem = ({ item, onItemPress }: Props) => {
   const query = useSelector(SearchSelector.query)
   const dispatch = useDispatch()
   const { isDone } = item
 
-  function onCheck() {
+  function onCheck () {
     dispatch(ToDoActions.requestToggleToDo(item))
   }
 

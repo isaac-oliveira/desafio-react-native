@@ -1,9 +1,16 @@
 import React from 'react'
 import { ActivityIndicator, FlatList, StyleSheet } from 'react-native'
+import type { FlatListProps } from 'react-native'
 
 import { Colors } from '../Themes'
 
-const List = ({ loading, error, ListErrorComponent, ...rest }) => {
+type Props = FlatListProps & {
+  loading: boolean,
+  error: boolean,
+  ListErrorComponent: React.ReactNode
+}
+
+const List = ({ loading, error, ListErrorComponent, ...rest }: Props) => {
   if (loading) {
     return <ActivityIndicator style={styles.loading} color={Colors.a120} size='large' />
   }

@@ -1,7 +1,11 @@
 // @flow
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-const INITIAL_STATE = {
+export type State = {
+  query: ?string
+}
+
+const INITIAL_STATE: State = {
   query: ''
 }
 
@@ -9,7 +13,7 @@ const searchSlice = createSlice({
   name: 'search',
   initialState: INITIAL_STATE,
   reducers: {
-    updateQuery: (state, action) => ({
+    updateQuery: (state: State, action: PayloadAction) => ({
       ...state,
       query: action.payload
     })

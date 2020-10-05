@@ -5,16 +5,23 @@ import { useDispatch } from 'react-redux'
 import FormToDo from './FormToDo'
 
 import { actions as ToDoActions } from '../Redux/ToDo'
+import type { ToDoForm } from '../Entities/ToDo'
 
 import { Colors, Images } from '../Themes'
 
-const EditToDo = ({ filter, item, hide }) => {
+type Props = {
+  filter: string,
+  item: ToDoForm,
+  hide(): void
+}
+
+const EditToDo = ({ filter, item, hide }: Props) => {
   const dispatch = useDispatch()
 
   const [clickConfirm, setClickConfirm] = useState(false)
 
   const onChangeValues = useCallback(
-    values => {
+    (values: ToDoForm) => {
       if (values !== item) {
         dispatch(ToDoActions.requestUpdateToDo({ filter, item: { ...item, ...values } }))
       }

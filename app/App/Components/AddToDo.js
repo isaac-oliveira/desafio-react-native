@@ -5,10 +5,16 @@ import { useDispatch } from 'react-redux'
 import FormToDo from './FormToDo'
 
 import { actions as ToDoActions } from '../Redux/ToDo'
+import type { ToDoForm } from '../Entities/ToDo'
 
 import { Colors } from '../Themes'
 
-const AddToDo = ({ filter, hide }) => {
+type Props = {
+  filter: string,
+  hide(): void
+}
+
+const AddToDo = ({ filter, hide }: Props) => {
   const dispatch = useDispatch()
 
   const [item, setItem] = useState({
@@ -24,7 +30,7 @@ const AddToDo = ({ filter, hide }) => {
     return every
   }, [item])
 
-  const onChangeValues = useCallback(values => {
+  const onChangeValues = useCallback((values: ToDoForm) => {
     setItem(state => ({ ...state, ...values }))
   }, [])
 

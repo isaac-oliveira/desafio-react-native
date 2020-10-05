@@ -1,7 +1,12 @@
 // @flow
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import type { ToDoType } from '../Entities/ToDo'
 
-const INITIAL_STATE = {
+export type State = {
+  data: ToDoType[]
+}
+
+const INITIAL_STATE: State = {
   data: []
 }
 
@@ -9,26 +14,26 @@ const toDoSlice = createSlice({
   name: 'toDo',
   initialState: INITIAL_STATE,
   reducers: {
-    requestToggleToDo: state => ({
+    requestToggleToDo: (state: State) => ({
       ...state
     }),
-    requestCreateToDo: state => ({
+    requestCreateToDo: (state: State) => ({
       ...state
     }),
-    requestUpdateToDo: state => ({
+    requestUpdateToDo: (state: State) => ({
       ...state
     }),
-    requestDeleteToDo: state => ({
+    requestDeleteToDo: (state: State) => ({
       ...state
     }),
-    refreshToDos: state => ({
+    refreshToDos: (state: State) => ({
       ...state
     }),
-    setToDos: (state, action) => ({
+    setToDos: (state: State, action: PayloadAction) => ({
       ...state,
       data: action.payload
     }),
-    toggleToDo: (state, action) => ({
+    toggleToDo: (state: State, action: PayloadAction) => ({
       ...state,
       data: state.data.map(item => {
         if (item.id !== action.payload.id) {

@@ -8,10 +8,12 @@ import Config from '../Config/DebugConfig'
 import persistConfig from '../Config/ReduxPersist'
 
 import type { Reducer } from './Entities'
+import type { GlobalState } from '.'
+
 import rootSaga from '../Sagas'
 
 type Configuration = {
-  rootReducer: Reducer<any>
+  rootReducer: Reducer<GlobalState>
 }
 
 export default ({ rootReducer }: Configuration) => {

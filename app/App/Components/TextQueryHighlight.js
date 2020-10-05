@@ -1,13 +1,14 @@
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
+import type { TextStyle } from 'react-native'
 
 import splitQueryText from '../Helpers/splitQueryText'
 import { Colors } from '../Themes'
 
-interface Props {
-  style: any;
-  children: String;
-  query: string;
+type Props = {
+  style: TextStyle,
+  children: string,
+  query: string
 }
 
 const TextQueryHighlight = ({ style, children, query }: Props) => {

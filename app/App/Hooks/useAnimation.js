@@ -1,21 +1,31 @@
 import { useEffect, useRef, useState } from 'react'
-import { ViewStyle } from 'react-native'
+import type { ViewStyle } from 'react-native'
 import Animated, { Easing } from 'react-native-reanimated'
 
-interface AnimStyleObject {
-  [key: string]: ViewStyle;
+type AnimStyleObject = {
+  [key: string]: ViewStyle
 }
 
 export type AnimationStyle = (anim: Animated.Value) => AnimStyleObject
 
-interface Props {
-  duration?: Number;
-  autoPlay?: Boolean;
-  animationStyle: AnimationStyle;
-  easing?: Easing;
+type Props = {
+  duration?: number,
+  autoPlay?: boolean,
+  animationStyle: AnimationStyle,
+  easing?: Easing
 }
 
-const useAnimation = ({ duration = 2000, autoPlay, animationStyle, easing = Easing.exp }: Props) => {
+type Callback = () => void
+
+type Anim = {
+  animStyle: AnimStyleObject,
+  animValue: Animated.Value,
+  startAnim(callback: Callback): void,
+  resetAnim(callback: Callback): void,
+  finishedInitialAnim: boolean
+}
+
+const useAnimation = ({ duration = 2000, autoPlay, animationStyle, easing = Easing.exp }: Props): Anim => {
   const [finishedInitialAnim, setFinishedInitialAnim] = useState(!autoPlay)
   const animValue = useRef(new Animated.Value(0)).current
 
@@ -31,7 +41,7 @@ const useAnimation = ({ duration = 2000, autoPlay, animationStyle, easing = Easi
 
   const animStyle = animationStyle(animValue)
 
-  function startAnim (callback) {
+  function startAnim (callback?: Callback) {
     setFinishedInitialAnim(false)
     Animated.timing(animValue, {
       toValue: 1,
@@ -40,7 +50,7 @@ const useAnimation = ({ duration = 2000, autoPlay, animationStyle, easing = Easi
     }).start(callback)
   }
 
-  function resetAnim (callback) {
+  function resetAnim (callback?: Callback) {
     setFinishedInitialAnim(false)
     animValue.setValue(1)
     Animated.timing(animValue, {

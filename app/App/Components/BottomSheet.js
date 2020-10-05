@@ -5,13 +5,18 @@ import Animated from 'react-native-reanimated'
 import AddToDo from './AddToDo'
 import EditToDo from './EditToDo'
 
-import useAnimation, { AnimationStyle } from '../Hooks/useAnimation'
+import type { AnimationStyle } from '../Hooks/useAnimation'
+import useAnimation from '../Hooks/useAnimation'
 
 import { Colors, Images } from '../Themes'
 
 const { height } = Dimensions.get('screen')
 
-const BottomSheet = ({ children }, ref) => {
+type Props = {
+  children: React.ReactNode
+}
+
+const BottomSheet = ({ children }: Props, ref) => {
   const [state, setState] = useState({
     filter: null,
     item: null,
@@ -35,7 +40,7 @@ const BottomSheet = ({ children }, ref) => {
     hide
   }))
 
-  function show (filter, item) {
+  function show (filter: string, item: any) {
     setState({ filter, item, visible: true })
   }
 

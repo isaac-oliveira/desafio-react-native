@@ -1,10 +1,14 @@
-// @flow
-
 export type ToDoType = {
   id: number,
   title: string,
   description: string,
-  isDone: true,
+  isDone: boolean,
   reminder: string,
   priority: string
 }
+
+export type ToDoForm = {
+  title?: string,
+  reminder?: string,
+  priority?: string
+} | null

@@ -4,8 +4,9 @@ import { updateReducers } from '../Config/ReduxPersist'
 import configureStore from './SetupStore'
 
 // import Types
-import type { State as ToDoUIState } from '../Features/ToDo/Redux/Ui'
-import type { State as ToDoEntityState } from '../Features/ToDo/Redux/Entity'
+import type { State as UIState } from './Ui'
+import type { State as ToDoState } from './ToDo'
+import type { State as SearchState } from './Search'
 
 import ui from './Ui'
 import toDo from './ToDo'
@@ -25,10 +26,7 @@ export default () => {
 }
 
 export type GlobalState = {
-  ui: {
-    toDos: ToDoUIState
-  },
-  entities: {
-    toDos: ToDoEntityState
-  }
+  ui: UIState,
+  toDo: ToDoState,
+  search: SearchState
 }

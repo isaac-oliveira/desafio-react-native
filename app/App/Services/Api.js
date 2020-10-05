@@ -1,6 +1,8 @@
 // @flow
 import apisauce from 'apisauce'
 
+import type { ToDoType } from '../Entities/ToDo'
+
 const create = (baseURL: string = 'http://10.0.0.15:3000') => {
   const api = apisauce.create({
     baseURL,
@@ -15,11 +17,11 @@ const create = (baseURL: string = 'http://10.0.0.15:3000') => {
 
   const deleteToDo = (id: number) => api.delete(`/todos/${id}`)
 
-  const putToDo = (item: any) => api.put(`/todos/${item.id}`, item)
+  const putToDo = (item: ToDoType) => api.put(`/todos/${item.id}`, item)
 
-  const postToDo = (item: any) => api.post('/todos', item)
+  const postToDo = (item: ToDoType) => api.post('/todos', item)
 
-  const toggleToDo = (item: any) =>
+  const toggleToDo = (item: ToDoType) =>
     api.put(`/todos/${item.id}`, {
       ...item,
       isDone: !item.isDone
@@ -41,9 +43,9 @@ export type Api = {
   getToDos: () => Promise<*>,
   getFilteredToDos: (filter: string) => Promise<*>,
   deleteToDo: (id: number) => Promise<*>,
-  putToDo: (item: any) => Promise<*>,
-  postToDo: (item: any) => Promise<*>,
-  toggleToDo: (item: any) => Promise<*>
+  putToDo: (item: ToDoType) => Promise<*>,
+  postToDo: (item: ToDoType) => Promise<*>,
+  toggleToDo: (item: ToDoType) => Promise<*>
 }
 
 export default {

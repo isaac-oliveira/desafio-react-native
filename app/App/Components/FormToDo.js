@@ -3,9 +3,16 @@ import { StyleSheet, TouchableOpacity, Text, Image, TextInput, View } from 'reac
 import DateTimePicker from '@react-native-community/datetimepicker'
 import moment from 'moment'
 
+import type { ToDoForm } from '../Entities/ToDo'
+
 import { Colors, Images } from '../Themes'
 
-const FormToDo = ({ item, onChangeValues }, ref) => {
+type Props = {
+  item: ToDoForm,
+  onChangeValues(values: ToDoForm): void
+}
+
+const FormToDo = ({ item, onChangeValues }: Props, ref) => {
   const [date, setDate] = useState(new Date(item?.reminder || Date.now()))
   const [dateMode, setDateMode] = useState('date')
   const [showDatePicker, setShowDatePicker] = useState(false)
@@ -30,15 +37,15 @@ const FormToDo = ({ item, onChangeValues }, ref) => {
     setShowPriorityList(true)
   }
 
-  function setTitle (title) {
+  function setTitle (title: string) {
     setValues({ ...values, title })
   }
 
-  function setReminder (reminder) {
+  function setReminder (reminder: string) {
     setValues({ ...values, reminder })
   }
 
-  function setPriority (priority) {
+  function setPriority (priority: string) {
     setValues({ ...values, priority })
     setShowPriorityList(false)
   }
@@ -112,7 +119,12 @@ const FormToDo = ({ item, onChangeValues }, ref) => {
 
 const priorityList = ['Nenhum', 'Baixa(!)', 'Média(!!)', 'Alta(!!!)']
 
-function PriorityList ({ itemSelected = 'Nenhum', onItemSelect }) {
+type PriorityListProps = {
+  itemSelected: string,
+  onItemSelect(item: string): void
+}
+
+function PriorityList ({ itemSelected = 'Nenhum', onItemSelect }: PriorityListProps) {
   return (
     <View style={styles.priorityListContainer}>
       {priorityList.map(item => {
