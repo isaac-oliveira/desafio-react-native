@@ -3,7 +3,7 @@ import apisauce from 'apisauce'
 
 import type { ToDoType } from '../Entities/ToDo'
 
-const create = (baseURL: string = 'http://10.0.0.15:3000') => {
+const create = (baseURL: string = 'http://localhost:3000') => {
   const api = apisauce.create({
     baseURL,
     timeout: 60000
